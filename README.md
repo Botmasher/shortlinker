@@ -6,4 +6,6 @@ Building began from an exercise for the Udacity [HTTP web servers](https://class
 This server accepts a URL and a short name, check that the URL actually
 works (returns an HTTP 200), then stores it in a Python dictionary.
 
-See `ShortmakerServer.py` for main code and exercise instructions.
+See the app [running on Heroku](shortlinker.herokuapp.com).
+
+Open `ShortmakerServer.py` for the main code.
