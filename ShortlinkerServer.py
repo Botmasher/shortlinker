@@ -54,22 +54,23 @@ class ThreadHTTPServer(ThreadingMixIn, http.server.HTTPServer):
 memory = {}
 
 form = '''<!DOCTYPE html>
-<title>Bookmark Server</title>
-<form method="POST">
-    <label>Long URI:
-        <input name="longuri">
-    </label>
-    <br>
-    <label>Short name:
-        <input name="shortname">
-    </label>
-    <br>
-    <button type="submit">Save it!</button>
-</form>
-<p>URIs I know about:
-<pre>
-{}
-</pre>
+    <title>Bookmark Server</title>
+    <form method="POST">
+        <label>Long URI:
+            <input name="longuri">
+        </label>
+        <br>
+        <label>Short name:
+            <input name="shortname">
+        </label>
+        <br>
+        <button type="submit">Save it!</button>
+    </form>
+    <p>URIs I know about:</p>
+    <ul>
+        {}
+    </ul>
+</html>
 '''
 
 
@@ -115,7 +116,7 @@ class Shortener(http.server.BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             # List the known associations in the form.
-            known = "\n".join("{} : {}".format(key, memory[key])
+            known = "\n".join("<li>{} : {}</li>".format(key, memory[key])
                               for key in sorted(memory.keys()))
             self.wfile.write(form.format(known).encode())
 
