@@ -47,6 +47,7 @@ import os
 from urllib.parse import unquote, parse_qs
 import threading
 from socketserver import ThreadingMixIn
+import webbrowser
 
 class ThreadHTTPServer(ThreadingMixIn, http.server.HTTPServer):
     "This HTTPServer supports thread-based concurrency"
@@ -54,22 +55,26 @@ class ThreadHTTPServer(ThreadingMixIn, http.server.HTTPServer):
 memory = {}
 
 form = '''<!DOCTYPE html>
-    <title>Bookmark Server</title>
-    <form method="POST">
-        <label>Long URI:
-            <input name="longuri">
-        </label>
-        <br>
-        <label>Short name:
-            <input name="shortname">
-        </label>
-        <br>
-        <button type="submit">Save it!</button>
-    </form>
-    <p>URIs I know about:</p>
-    <ul>
-        {}
-    </ul>
+    <head>
+        <title>Shortlinker Bookmark Server</title>
+    </head>
+    <body>
+        <form method="POST">
+            <label>Long URI:
+                <input name="longuri">
+            </label>
+            <br>
+            <label>Short name:
+                <input name="shortname">
+            </label>
+            <br>
+            <button type="submit">Save it!</button>
+        </form>
+        <p>URIs I know about:</p>
+        <ul>
+            {}
+        </ul>
+    </body>
 </html>
 '''
 
@@ -156,6 +161,8 @@ class Shortener(http.server.BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8000))    # use server environment PORT if available
+    print ("Listening on port %s" % port)
+    webbrowser.open("http://localhost:%s" % port, new=2)
     server_address = ('', port)
     httpd = ThreadHTTPServer(server_address, Shortener)
     httpd.serve_forever()
